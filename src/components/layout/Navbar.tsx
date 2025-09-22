@@ -1,6 +1,7 @@
 import { BookOpenIcon, InfoIcon, LifeBuoyIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import profileLogo from "@/assets/images/demo-profile-logo.jpg";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,6 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import Logo from "@/assets/icons/Logo";
 import { Link } from "react-router";
 import { ModeToggle } from "./ModeToggle";
+import { useGetProfileQuery } from "@/redux/features/auth/auth.api";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -32,6 +34,8 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
+  const { data: profile, isLoading } = useGetProfileQuery(undefined);
+
   return (
     <header className="border-b px-4 md:px-6 sticky top-0 z-50 bg-secondary">
       <div className="flex h-16 items-center justify-between gap-4 container mx-auto">
@@ -147,11 +151,21 @@ export default function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ModeToggle></ModeToggle>
-          <Button asChild variant="link" size="sm" className="text-sm">
-            <Link to="/login" className="">
-              Sign In
-            </Link>
-          </Button>
+          {!isLoading && !profile.data.email && (
+            <Button asChild variant="link" size="sm" className="text-sm">
+              <Link to="/login" className="">
+                Sign In
+              </Link>
+            </Button>
+          )}
+
+          {!isLoading && profile.data.email && (
+            <Button asChild variant="link" size="sm" className="text-sm">
+              <Link to="/profile" className="">
+                <img src={profileLogo} className="h-8 rounded-full" alt="" />
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>
