@@ -1,5 +1,6 @@
 import Home from "@/components/modules/sender/Home";
 import MyParcels from "@/components/modules/sender/MyParcels";
+import ParcelRequest from "@/components/modules/sender/ParcelRequest";
 import type { ISidebarItem } from "@/types/types";
 
 const senderSidebarItems: ISidebarItem[] = [
@@ -9,7 +10,10 @@ const senderSidebarItems: ISidebarItem[] = [
   },
   {
     title: "Parcels",
-    items: [{ title: "Parcels", url: "/sender/add-tour-type", component: MyParcels }],
+    items: [
+      { title: "Parcel Request", url: "/sender/parcel-request", component: ParcelRequest },
+      { title: "Parcels", url: "/sender/my-parcels", component: MyParcels },
+    ],
   },
 ];
 

@@ -7,8 +7,6 @@ const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
   return function AuthWrapper() {
     const { data: profile, isLoading } = useGetProfileQuery(undefined);
 
-    console.log(profile);
-
     if (isLoading) return <p className="text-center my-10">Loading... </p>;
 
     if (!isLoading && !profile?.data?.email) return <Navigate to="/login"></Navigate>;

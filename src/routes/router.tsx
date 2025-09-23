@@ -17,6 +17,7 @@ import receiverSidebarItems from "./receiverSidebarItems";
 import AboutUs from "@/pages/AboutUs";
 import ContactUs from "@/pages/ContactUs";
 import GetStarted from "@/pages/GetStarted";
+import Success from "@/pages/Success";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
     Component: App,
     children: [
       { index: true, Component: HeroSection },
-      { path: "profile", Component: Profile },
+      { path: "profile", Component: withAuth(Profile) },
       { path: "/contact-us", Component: ContactUs },
       { path: "/about-us", Component: AboutUs },
       { path: "/get-us", Component: GetStarted },
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
   {
     path: "/verification",
     Component: Verification,
+  },
+  {
+    path: "/payment/success",
+    Component: Success,
   },
 ]);
 

@@ -1,4 +1,4 @@
-import { useGetProfileQuery, useUpdateProfileMutation } from "@/redux/features/auth/auth.api";
+import { authApi, useGetProfileQuery, useLogoutMutation, useUpdateProfileMutation } from "@/redux/features/auth/auth.api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useAppDispatch } from "@/redux/store";
 
 const profileSchema = z.object({
   phone: z.string().min(11, "Contact number must be at least 11 digits"),
@@ -19,8 +20,10 @@ const profileSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
 const Profile = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { data: profile, isLoading } = useGetProfileQuery(undefined);
+  const [logout] = useLogoutMutation();
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
   const [editMode, setEditMode] = useState(false);
 
@@ -42,6 +45,13 @@ const Profile = () => {
     } catch (err) {
       console.error("Update failed:", err);
     }
+  };
+
+  const handleLogout = async () => {
+    await logout(undefined);
+
+    dispatch(authApi.util.resetApiState());
+    navigate("/");
   };
 
   if (isLoading) return <p className="my-10 text-center">Loading...</p>;
@@ -128,10 +138,15 @@ const Profile = () => {
               <div>
                 <span className="font-medium">Address:</span> {profile?.data?.address || "Not provided"}
               </div>
-              <Button onClick={() => setEditMode(true)} className="w-full mt-4">
+              <Button onClick={() => setEditMode(true)} className="w-full mt-4 cursor-pointer" variant="ghost">
                 Edit
               </Button>
             </>
+          )}
+          {!editMode && (
+            <Button variant="outline" className="w-full mt-2 cursor-pointer" onClick={handleLogout}>
+              Logout
+            </Button>
           )}
         </CardContent>
       </Card>

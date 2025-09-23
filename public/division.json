@@ -1,0 +1,10 @@
+[
+  { "id": "dhaka", "name": "Dhaka" },
+  { "id": "chattogram", "name": "Chattogram" },
+  { "id": "rajshahi", "name": "Rajshahi" },
+  { "id": "khulna", "name": "Khulna" },
+  { "id": "barisal", "name": "Barisal" },
+  { "id": "sylhet", "name": "Sylhet" },
+  { "id": "rangpur", "name": "Rangpur" },
+  { "id": "mymensingh", "name": "Mymensingh" }
+]

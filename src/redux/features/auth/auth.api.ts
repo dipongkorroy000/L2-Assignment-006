@@ -17,8 +17,9 @@ export const authApi = baseApi.injectEndpoints({
       query: ({ email, ...data }) => ({ url: "/user", method: "PATCH", params: { email }, data }),
       invalidatesTags: ["USER"],
     }),
+    logout: builder.mutation({ query: () => ({ url: "/auth/logout", method: "POST" }), invalidatesTags: ["USER"] }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useSendOTPMutation, useVerifyOTPMutation, useGetProfileQuery, useUpdateProfileMutation } =
+export const { useRegisterMutation, useLoginMutation, useSendOTPMutation, useVerifyOTPMutation, useGetProfileQuery, useUpdateProfileMutation, useLogoutMutation } =
   authApi;
