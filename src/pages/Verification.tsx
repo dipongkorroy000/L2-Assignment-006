@@ -34,8 +34,6 @@ export default function Verification() {
     },
   });
 
-  console.log(location)
-
   const handleSendOtp = async () => {
     const toastId = toast.loading("Sending OTP");
 
