@@ -8,3 +8,4 @@ export const role = {
 
 
 export const roles = ["SENDER", "RECEIVER", "ADMIN", "SUPER_ADMIN"];
+export const TARoles = ["SENDER", "RECEIVER", "ADMIN"];

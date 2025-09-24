@@ -44,6 +44,7 @@ type TPayment = {
 };
 
 type TParcel = {
+  _id: string;
   trackingId: string;
   title: string;
   type: string;
@@ -56,4 +57,5 @@ type TParcel = {
   status: string;
   payment: string;
   createdAt: string;
+  statusLog: object[];
 };

@@ -8,12 +8,19 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useState, useMemo } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import type { TParcel } from "@/types/types";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { parcelStatus, Payment_Status } from "@/constants/ParcelStatus";
 
 const Parcels = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [division, setDivision] = useState<string | null>(null);
 
-  const { data: rawParcels, isLoading } = useGetParcelsQuery({ page: currentPage, division });
+  const [transactionId, setTransactionId] = useState<string | null>(null);
+  const [division, setDivision] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+  const [payment, setPayment] = useState<string | null>(null);
+
+  const { data: rawParcels, isLoading } = useGetParcelsQuery({ page: currentPage, division, trackingId: transactionId, status, payment });
   const totalPage = rawParcels?.meta.totalPage;
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -75,8 +82,18 @@ const Parcels = () => {
   if (isLoading) return <p className="my-10 text-center">Loading....</p>;
 
   return (
-    <div className="container mx-auto my-10 w-full">
-      <div className="mb-4 max-w-sm flex gap-2">
+    <div className="container mx-auto my-10">
+      <div className="mb-4 min-w-sm flex gap-2">
+        <Input
+          type="text"
+          placeholder="Filter by TransactionId"
+          value={transactionId || ""}
+          onChange={(e) => {
+            setTransactionId(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
+
         <Select onValueChange={(value) => setDivision(value === "All" ? null : value)} defaultValue={division || undefined}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Filter by division" />
@@ -90,6 +107,48 @@ const Parcels = () => {
             ))}
           </SelectContent>
         </Select>
+
+        <Select onValueChange={(value) => setStatus(value === "All" ? null : value)} defaultValue={status || undefined}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="All">All Status</SelectItem>
+            {parcelStatus?.map((status) => (
+              <SelectItem key={status} value={status}>
+                {status}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select onValueChange={(value) => setPayment(value === "All" ? null : value)} defaultValue={payment || undefined}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Filter by payment" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="All">All Type Payment</SelectItem>
+            {Payment_Status?.map((status) => (
+              <SelectItem key={status} value={status}>
+                {status}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* Clear Button */}
+        <Button
+          onClick={() => {
+            setCurrentPage(1);
+            setDivision(null);
+            setCurrentPage(1);
+            setTransactionId(null);
+          }}
+          variant="secondary"
+          className="cursor-pointer"
+        >
+          Clear
+        </Button>
       </div>
 
       <Table>

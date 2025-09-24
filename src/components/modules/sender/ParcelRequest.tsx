@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 const parcelSchema = z.object({
   senderId: z.string(),
-  receiverEmail: z.union([z.string().email(), z.literal("")]).optional(),
+  receiverEmail: z.union([z.email(), z.literal("")]).optional(),
   receiverNumber: z.string().min(11, "Receiver number must be at least 11 digits"),
   title: z.string().min(2, "Parcel title is required"),
   type: z.string().min(2, "Parcel type is required"),

@@ -18,8 +18,6 @@ const Payments = () => {
   const { data, isLoading } = useGetPaymentsQuery({ transactionId, status, page: currentPage });
   const payments = data?.data?.data || [];
 
-  console.log(payments);
-
   const totalPage = data?.data?.meta.totalPage;
 
   if (isLoading) return <p className="my-10 text-center">Loading....</p>;
