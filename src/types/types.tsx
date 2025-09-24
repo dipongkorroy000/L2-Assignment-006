@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 
-export type { TUser };
+export type { TUser, TPayment, TParcel };
+export type TRole = "SUPER_ADMIN" | "ADMIN" | "SENDER" | "RECEIVER";
 
 export interface ILogin {
   email: string;
@@ -32,4 +33,27 @@ type TUser = {
   createdAt: string;
 };
 
-export type TRole = "SUPER_ADMIN" | "ADMIN" | "SENDER" | "RECEIVER";
+type TPayment = {
+  amount: number;
+  createdAt: string;
+  updatedAt: string;
+  invoiceUrl: string;
+  parcel: string;
+  status: string;
+  transactionId: string;
+};
+
+type TParcel = {
+  trackingId: string;
+  title: string;
+  type: string;
+  weight: number;
+  division: string;
+  city: string;
+  area: string;
+  receiverNumber: string;
+  senderEmail: string;
+  status: string;
+  payment: string;
+  createdAt: string;
+};

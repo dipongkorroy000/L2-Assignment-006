@@ -1,6 +1,6 @@
 import { baseApi } from "@/redux/baseApi";
 
-export const authApi = baseApi.injectEndpoints({
+export const parcelApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getParcels: builder.query({
       query: (payload) => ({ url: "/parcel/all-parcel", method: "GET", params: payload }),
@@ -14,4 +14,4 @@ export const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetParcelsQuery, useRequestParcelMutation } = authApi;
+export const { useGetParcelsQuery, useRequestParcelMutation } = parcelApi;

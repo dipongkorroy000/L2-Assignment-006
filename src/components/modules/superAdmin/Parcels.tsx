@@ -3,37 +3,22 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import divisions from "@/assets/division.json";
 
-type Parcel = {
-  trackingId: string;
-  title: string;
-  type: string;
-  weight: number;
-  division: string;
-  city: string;
-  area: string;
-  receiverNumber: string;
-  senderEmail: string;
-  status: string;
-  payment: string;
-  createdAt: string;
-};
-
 import { useReactTable, getCoreRowModel, getSortedRowModel, flexRender, type SortingState } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState, useMemo } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
+import type { TParcel } from "@/types/types";
 
 const Parcels = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(5);
   const [division, setDivision] = useState<string | null>(null);
 
-  const { data: rawParcels, isLoading } = useGetParcelsQuery({ page: currentPage, limit, division });
+  const { data: rawParcels, isLoading } = useGetParcelsQuery({ page: currentPage, division });
   const totalPage = rawParcels?.meta.totalPage;
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const columns: ColumnDef<Parcel>[] = [
+  const columns: ColumnDef<TParcel>[] = [
     { header: "Tracking ID", accessorKey: "trackingId" },
     { header: "Title", accessorKey: "title" },
     { header: "Type", accessorKey: "type" },
@@ -106,6 +91,7 @@ const Parcels = () => {
           </SelectContent>
         </Select>
       </div>
+
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

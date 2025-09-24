@@ -72,7 +72,11 @@ const Users = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">All USERS</SelectItem>
-            {userRoles.map((singleRole) => (<SelectItem key={singleRole} value={singleRole}>{singleRole}</SelectItem>))}
+            {userRoles.map((singleRole) => (
+              <SelectItem key={singleRole} value={singleRole}>
+                {singleRole}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
 
@@ -81,7 +85,10 @@ const Users = () => {
           type="email"
           placeholder="Filter by Email"
           value={email || ""}
-          onChange={(e) => { setEmail(e.target.value);  setCurrentPage(1) }}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setCurrentPage(1);
+          }}
           className=""
         />
 
@@ -90,12 +97,25 @@ const Users = () => {
           type="tel"
           placeholder="Filter by Phone"
           value={phone || ""}
-          onChange={(e) => { setPhone(e.target.value); setCurrentPage(1) }}
+          onChange={(e) => {
+            setPhone(e.target.value);
+            setCurrentPage(1);
+          }}
           className=""
         />
 
         {/* Clear Button */}
-        <Button onClick={() => { setCurrentPage(1); setEmail(null); setRole(null);setPhone(null); setLimit(10) }} variant="secondary" className="cursor-pointer" >
+        <Button
+          onClick={() => {
+            setCurrentPage(1);
+            setEmail(null);
+            setRole(null);
+            setPhone(null);
+            setLimit(10);
+          }}
+          variant="secondary"
+          className="cursor-pointer"
+        >
           Clear
         </Button>
       </div>
@@ -124,6 +144,7 @@ const Users = () => {
           ))}
         </TableBody>
       </Table>
+
       {/* pagination */}
       <div className="mt-5">
         {totalPage > 1 && (
