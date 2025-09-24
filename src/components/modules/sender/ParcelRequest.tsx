@@ -10,6 +10,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { useGetProfileQuery } from "@/redux/features/auth/auth.api";
 import { useRequestParcelMutation } from "@/redux/features/parcel/parcel.api";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 const parcelSchema = z.object({
   senderId: z.string(),
@@ -25,6 +26,7 @@ const parcelSchema = z.object({
 type ParcelFormValues = z.infer<typeof parcelSchema>;
 
 const ParcelRequest = () => {
+  const navigate = useNavigate();
   const { data: profile } = useGetProfileQuery(undefined);
   const [parcelRequest] = useRequestParcelMutation();
 
@@ -54,24 +56,20 @@ const ParcelRequest = () => {
   const onSubmit = async (values: ParcelFormValues) => {
     setIsSubmitting(true);
     try {
-      // Replace with your API call
-      console.log("Submitting parcel:", values);
-
       const payload = { ...values };
       if (!payload.receiverEmail) {
         delete payload.receiverEmail;
       }
 
       const res = await parcelRequest(payload).unwrap();
+      if (res.success) {
+        toast.success(res.message);
+        window.open(res.data);
 
-      toast.success(res.message);
-      window.open(res.data);
-
-
-      console.log(res);
+        navigate("/sender/my-parcels");
+      }
     } catch (err: any) {
       // console.error("Parcel submission failed:", err.data.message);
-      console.log(err);
       toast.error(err.message);
     } finally {
       setIsSubmitting(false);
@@ -118,6 +116,7 @@ const ParcelRequest = () => {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="receiverEmail"
@@ -134,6 +133,7 @@ const ParcelRequest = () => {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="receiverNumber"
@@ -155,7 +155,14 @@ const ParcelRequest = () => {
               <FormItem>
                 <FormLabel>Weight (kg)</FormLabel>
                 <FormControl>
-                  <Input type="number" step="0.1" placeholder="e.g. 2.5" {...field} />
+                  <Input
+                    type="number"
+                    step="1"
+                    placeholder="e.g. 2"
+                    {...field}
+                    value={field.value ?? ""}
+                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

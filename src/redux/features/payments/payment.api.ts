@@ -10,7 +10,11 @@ export const paymentApi = baseApi.injectEndpoints({
       query: () => ({ url: "/stats/payment", method: "GET" }),
       providesTags: ["PAYMENTS"],
     }),
+    userPayments: builder.query({
+      query: () => ({ url: "/payment/my-payments", method: "GET" }),
+      providesTags: ["PAYMENTS"],
+    }),
   }),
 });
 
-export const { useGetPaymentsQuery, useGetPaymentsStatusQuery } = paymentApi;
+export const { useGetPaymentsQuery, useGetPaymentsStatusQuery, useUserPaymentsQuery } = paymentApi;

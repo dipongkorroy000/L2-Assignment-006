@@ -59,3 +59,40 @@ type TParcel = {
   createdAt: string;
   statusLog: object[];
 };
+
+export interface StatusLogEntry {
+  status: "APPROVED" | "DISPATCHED" | "IN-TRANSIT" | "DELIVERED";
+  updatedBy: string;
+  location: string;
+  note: string;
+  timestamp: string; // ISO date string
+}
+
+export interface GetParcel {
+  _id: string;
+  senderId: string;
+  receiverNumber: string;
+  title: string;
+  type: string;
+  weight: number;
+  trackingId: string;
+  division: string;
+  city: string;
+  area: string;
+  status: string;
+  payment: string;
+  statusLog: StatusLogEntry[];
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+}
+
+export interface Payment {
+  _id: string;
+  transactionId: string;
+  parcel: string; // Parcel ID
+  amount: number;
+  status: string;
+  invoiceUrl: string;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+}

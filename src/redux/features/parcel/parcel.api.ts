@@ -16,7 +16,9 @@ export const parcelApi = baseApi.injectEndpoints({
       query: ({ trackingId, payload }) => ({ url: `/parcel/${trackingId}`, method: "PATCH", data: payload }),
       invalidatesTags: ["PARCEL"],
     }),
+    userParcels: builder.query({ query: () => ({ url: `/parcel/myParcels`, method: "GET" }), providesTags: ["PARCEL"] }),
   }),
 });
 
-export const { useGetParcelsQuery, useRequestParcelMutation, useGetParcelsStatsQuery, useUpdateParcelStatusLogMutation } = parcelApi;
+export const { useGetParcelsQuery, useRequestParcelMutation, useGetParcelsStatsQuery, useUpdateParcelStatusLogMutation, useUserParcelsQuery } =
+  parcelApi;
