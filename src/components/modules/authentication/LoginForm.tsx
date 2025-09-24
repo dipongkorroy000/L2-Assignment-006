@@ -21,9 +21,6 @@ export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivE
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await login(data as ILogin).unwrap();
-
-      console.log(res)
-
       if (res.success) {
         toast.success("Logged in successfully");
         navigate("/");

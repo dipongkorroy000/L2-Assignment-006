@@ -1,9 +1,156 @@
+import { useGetUsersQuery } from "@/redux/features/users/users.api";
+import { useReactTable, getCoreRowModel, getSortedRowModel, flexRender, type SortingState } from "@tanstack/react-table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { type ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
+const userRoles: string[] = ["SENDER", "RECEIVER", "ADMIN", "SUPER_ADMIN"];
+
+type User = {
+  _id: string;
+  email: string;
+  phone: string;
+  address: string;
+  role: string;
+  isActive: string;
+  isVerified: boolean;
+  createdAt: string;
+};
+
+const columns: ColumnDef<User>[] = [
+  { header: "Email", accessorKey: "email" },
+  { header: "Phone", accessorKey: "phone" },
+  { header: "Address", accessorKey: "address" },
+  { header: "Role", accessorKey: "role" },
+  { header: "Status", accessorKey: "isActive" },
+  {
+    header: "Verified",
+    accessorKey: "isVerified",
+    cell: ({ row }) => (row.getValue("isVerified") ? "✅" : "❌"),
+  },
+  {
+    header: "Created At",
+    accessorKey: "createdAt",
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("createdAt"));
+      return date.toLocaleDateString("en-BD", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    },
+  },
+];
 
 const Users = () => {
+  const [phone, setPhone] = useState(null);
+  const [role, setRole] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(1);
+  const { data, isLoading } = useGetUsersQuery({ page: currentPage, limit, email, role, phone });
+  const users = data?.data || [];
+
+  const [sorting, setSorting] = useState<SortingState>([]);
+
+  const table = useReactTable({
+    data: users,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    state: { sorting },
+  });
+
+  const totalPage = data?.meta.totalPage;
+
+  if (isLoading) return <p className="my-10 text-center">Loading....</p>;
+
   return (
-    <div>
-      <h2>All users super </h2>
+    <div className="container mx-auto my-10">
+      <h2 className="text-xl font-semibold mb-4">All Users</h2>
+      <div className="flex gap-2 mb-5">
+        <Select onValueChange={(value) => setRole(value)} defaultValue={undefined}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Filter by division" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="null">All USERS</SelectItem>
+            {userRoles?.map((singleRole) => (
+              <SelectItem key={singleRole} value={singleRole}>
+                {singleRole}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Button
+          onClick={() => {
+            setCurrentPage(1);
+            setEmail(null);
+            setRole(null);
+            setPhone(null);
+            setLimit(10);
+          }}
+          variant={"secondary"}
+          className="cursor-pointer"
+        >
+          Clear
+        </Button>
+      </div>
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id} onClick={header.column.getToggleSortingHandler()} className="cursor-pointer">
+                  {flexRender(header.column.columnDef.header, header.getContext())}
+                  {header.column.getIsSorted() === "asc" ? " 🔼" : header.column.getIsSorted() === "desc" ? " 🔽" : ""}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows.map((row) => (
+            <TableRow key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <div className="mt-5">
+        {totalPage > 1 && (
+          <div>
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() => setCurrentPage((prev) => prev - 1)}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+                {Array.from({ length: totalPage }, (_, index) => index + 1).map((page) => (
+                  <PaginationItem key={page} onClick={() => setCurrentPage(page)}>
+                    <PaginationLink isActive={currentPage === page}>{page}</PaginationLink>
+                  </PaginationItem>
+                ))}
+
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                    className={currentPage === totalPage ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

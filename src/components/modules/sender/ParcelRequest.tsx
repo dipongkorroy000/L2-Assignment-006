@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import divisions from "../../../../public/division.json";
+import divisions from "@/assets/division.json";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useGetProfileQuery } from "@/redux/features/auth/auth.api";
 import { useRequestParcelMutation } from "@/redux/features/parcel/parcel.api";
