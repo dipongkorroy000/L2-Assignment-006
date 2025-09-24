@@ -22,12 +22,11 @@ import { useReactTable, getCoreRowModel, getSortedRowModel, flexRender, type Sor
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState, useMemo } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
 
 const Parcels = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(5);
-  const [division, setDivision] = useState(null);
+  const [division, setDivision] = useState<string | null>(null);
 
   const { data: rawParcels, isLoading } = useGetParcelsQuery({ page: currentPage, limit, division });
   const totalPage = rawParcels?.meta.totalPage;
@@ -93,12 +92,12 @@ const Parcels = () => {
   return (
     <div className="container mx-auto my-10 w-full">
       <div className="mb-4 max-w-sm flex gap-2">
-        <Select onValueChange={(value) => setDivision(value)} defaultValue={division || undefined}>
+        <Select onValueChange={(value) => setDivision(value === "All" ? null : value)} defaultValue={division || undefined}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Filter by division" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="null">All Divisions</SelectItem>
+            <SelectItem value="All">All Divisions</SelectItem>
             {divisions?.map((div) => (
               <SelectItem key={div.id} value={div.name}>
                 {div.name}
@@ -106,9 +105,6 @@ const Parcels = () => {
             ))}
           </SelectContent>
         </Select>
-        <Button onClick={() => setDivision(null)} variant={"secondary"} className="cursor-pointer">
-          Clear
-        </Button>
       </div>
       <Table>
         <TableHeader>

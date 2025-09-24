@@ -5,3 +5,6 @@ export const role = {
   receiver: "RECEIVER",
   public: "PUBLIC",
 };
+
+
+export const roles = ["SENDER", "RECEIVER", "ADMIN", "SUPER_ADMIN"];
