@@ -25,7 +25,7 @@ export default function Verification() {
   const [confirmed, setConfirmed] = useState(false);
   const [sendOtp] = useSendOTPMutation();
   const [verifyOtp] = useVerifyOTPMutation();
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(120);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -42,7 +42,7 @@ export default function Verification() {
       if (res.success) {
         toast.success("OTP Sent", { id: toastId });
         setConfirmed(true);
-        setTimer(5);
+        setTimer(120);
       }
     } catch (err) {
       console.log(err);
@@ -163,7 +163,7 @@ export default function Verification() {
           <CardHeader>
             <CardTitle className="text-xl">Verify your email address</CardTitle>
             <CardDescription>
-              We will send you an OTP at <br /> {email}
+              We will send you an OTP at <br /> {email}k
             </CardDescription>
           </CardHeader>
           <CardFooter className="flex justify-end">
