@@ -28,6 +28,7 @@ export const parcelApi = baseApi.injectEndpoints({
       query: (payload) => ({ url: "otp/parcel-otp-verify", method: "POST", data: payload }),
       invalidatesTags: ["PARCEL"],
     }),
+    anyOneFindParcel: builder.query({ query: (trackingId) => ({ url: `/parcel/anyOne/${trackingId}`, method: "GET", }) }),
   }),
 });
 
@@ -39,4 +40,5 @@ export const {
   useUserParcelsQuery,
   useCancelParcelOTPSendMutation,
   useCancelParcelOTPVerifyMutation,
+  useAnyOneFindParcelQuery
 } = parcelApi;
