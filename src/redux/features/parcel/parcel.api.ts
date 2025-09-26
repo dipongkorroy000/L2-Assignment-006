@@ -29,6 +29,10 @@ export const parcelApi = baseApi.injectEndpoints({
       invalidatesTags: ["PARCEL"],
     }),
     anyOneFindParcel: builder.query({ query: (trackingId) => ({ url: `/parcel/anyOne/${trackingId}`, method: "GET", }) }),
+
+    incomingParcels: builder.query({ query: () => ({ url: "/parcel/receiver", method: "GET" }), providesTags: ["PARCEL"] }),
+    
+    confirmParcel: builder.mutation({query: (payload)=>({url: "/parcel/confirm", method: "PATCH", data: payload}), invalidatesTags: ["PARCEL"]})
   }),
 });
 
@@ -40,5 +44,7 @@ export const {
   useUserParcelsQuery,
   useCancelParcelOTPSendMutation,
   useCancelParcelOTPVerifyMutation,
-  useAnyOneFindParcelQuery
+  useAnyOneFindParcelQuery,
+  useIncomingParcelsQuery,
+  useConfirmParcelMutation,
 } = parcelApi;

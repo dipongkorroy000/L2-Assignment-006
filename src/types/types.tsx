@@ -70,8 +70,9 @@ export interface StatusLogEntry {
 
 export interface GetParcel {
   _id: string;
-  senderId: string;
+  senderId: {name: string, phone: string, email: string, address: string};
   receiverNumber: string;
+  receiverEmail: string;
   title: string;
   type: string;
   weight: number;

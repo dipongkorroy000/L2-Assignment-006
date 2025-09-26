@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { useNextTimePaymentMutation } from "@/redux/features/payments/payment.api";
 
 const FormSchema = z.object({
   pin: z.string()
@@ -21,6 +22,8 @@ const FormSchema = z.object({
 });
 
 const MyParcels = () => {
+  const [nextTimePayment] = useNextTimePaymentMutation();
+
   const [openModal, setOpenModal] = useState(false);
   const [trackingId, setTrackingId] = useState<string | null>(null);
 
@@ -67,6 +70,12 @@ const MyParcels = () => {
     }
   };
 
+  const handlePayment = async (trackingId : string) => {
+    const res = await nextTimePayment(trackingId);
+
+    if (res.data.success) window.open(res.data.data.paymentUrl);
+  }
+
   if (isLoading) return <p className="my-10 text-center">Loading....</p>;
 
   return (
@@ -83,8 +92,14 @@ const MyParcels = () => {
 
             <CardContent className="space-y-2 text-sm">
               <p>
-                <strong>Receiver:</strong> {parcel.receiverNumber}
+                <strong>Receiver Phone:</strong> {parcel.receiverNumber}
               </p>
+              {
+                parcel?.receiverEmail && <p>
+                <strong>Receiver Email:</strong> {parcel?.receiverEmail}
+              </p>
+              }
+               
               <p>
                 <strong>Location:</strong> {parcel.division}, {parcel.city}, {parcel.area}
               </p>
@@ -121,7 +136,19 @@ const MyParcels = () => {
                       Cancel
                     </Button>
                   )}
+                  
                 </div>
+                  {parcel.payment !== "COMPLETE" && (
+                    <Button
+                      onClick={() => handlePayment(parcel.trackingId)}
+                      className="cursor-pointer mt-3"
+                      variant={"outline"}
+                      type="button"
+                    >
+                      Payment
+                    </Button>
+                  )}
+                
               </div>
             </CardContent>
           </Card>
@@ -135,6 +162,7 @@ const MyParcels = () => {
             <DialogContent className="max-w-md mx-auto">
               <DialogHeader>
                 <DialogTitle className="text-lg font-semibold">Enter OTP to Cancel Parcel</DialogTitle>
+
               </DialogHeader>
 
               <Form {...form}>

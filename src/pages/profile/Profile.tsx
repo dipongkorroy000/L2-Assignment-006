@@ -11,6 +11,7 @@ import { z } from "zod";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAppDispatch } from "@/redux/store";
+import { toast } from "sonner";
 
 const profileSchema = z.object({
   phone: z.string().min(11, "Contact number must be at least 11 digits"),
@@ -38,10 +39,11 @@ const Profile = () => {
   const { name, email, role, isVerified } = profile?.data || {};
 
   const onSubmit = async (values: ProfileFormValues) => {
+    const toastId = toast.loading("loading...")
     try {
       const res = await updateProfile({ email, phone: values.phone, address: values.address }).unwrap();
 
-      console.log(res);
+      if (res.success) {toast.success("Updated successfully", { id: toastId }); setEditMode(false)}
     } catch (err) {
       console.error("Update failed:", err);
     }

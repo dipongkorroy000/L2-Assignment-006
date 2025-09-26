@@ -14,7 +14,8 @@ export const paymentApi = baseApi.injectEndpoints({
       query: () => ({ url: "/payment/my-payments", method: "GET" }),
       providesTags: ["PAYMENTS"],
     }),
+    nextTimePayment: builder.mutation({ query: (payload) => ({ url: `/payment/init-payment/${payload}`, method: "POST" }), invalidatesTags: ["PAYMENTS", "PARCEL"] })
   }),
 });
 
-export const { useGetPaymentsQuery, useGetPaymentsStatusQuery, useUserPaymentsQuery } = paymentApi;
+export const { useGetPaymentsQuery, useGetPaymentsStatusQuery, useUserPaymentsQuery, useNextTimePaymentMutation } = paymentApi;

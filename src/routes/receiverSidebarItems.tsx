@@ -1,15 +1,18 @@
 import Home from "@/components/modules/receiver/Home";
 import MyParcels from "@/components/modules/receiver/MyParcels";
+import Payments from "@/components/modules/receiver/Payments";
 import type { ISidebarItem } from "@/types/types";
 
 const receiverSidebarItems: ISidebarItem[] = [
   {
     title: "Dashboard",
-    items: [{ title: "Analytics", url: "/receiver/home", component: Home }],
+    items: [{ title: "Home", url: "/receiver/home", component: Home }],
   },
   {
     title: "Parcels",
-    items: [{ title: "Add Tour Type", url: "/receiver/parcels", component: MyParcels }],
+    items: [{ title: "Incoming Parcels", url: "/receiver/parcels", component: MyParcels }, 
+            { title: "Payments", url: "/receiver/payments", component: Payments }
+    ],
   },
 ];
 

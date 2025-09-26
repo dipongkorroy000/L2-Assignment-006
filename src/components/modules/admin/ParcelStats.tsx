@@ -52,7 +52,7 @@ const ParcelStats = () => {
 
   const data = useMemo(() => {
     return (
-      rawParcels?.data.map((p) => ({
+      rawParcels?.data.map((p : {trackingId: string, status: string, payment: string, statusLog: any}) => ({
         trackingId: p.trackingId,
         status: p.status,
         payment: p.payment,

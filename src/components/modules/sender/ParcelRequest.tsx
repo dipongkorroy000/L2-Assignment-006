@@ -14,7 +14,7 @@ import { useNavigate } from "react-router";
 
 const parcelSchema = z.object({
   senderId: z.string(),
-  receiverEmail: z.union([z.email(), z.literal("")]).optional(),
+  receiverEmail: z.string().optional(),
   receiverNumber: z.string().min(11, "Receiver number must be at least 11 digits"),
   title: z.string().min(2, "Parcel title is required"),
   type: z.string().min(2, "Parcel type is required"),
@@ -60,8 +60,9 @@ const ParcelRequest = () => {
       if (!payload.receiverEmail) {
         delete payload.receiverEmail;
       }
-
+      
       const res = await parcelRequest(payload).unwrap();
+
       if (res.success) {
         toast.success(res.message);
         window.open(res.data);
@@ -69,7 +70,7 @@ const ParcelRequest = () => {
         navigate("/sender/my-parcels");
       }
     } catch (err: any) {
-      // console.error("Parcel submission failed:", err.data.message);
+      console.error("Parcel submission failed:", err);
       toast.error(err.message);
     } finally {
       setIsSubmitting(false);
