@@ -14,10 +14,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
 const FormSchema = z.object({
-  pin: z.string(),
-  //   .min(6, {
-  //   message: "Your one-time password must be 6 characters.",
-  // }),
+  pin: z.string()
+    .min(6, {
+    message: "Your one-time password must be 6 characters.",
+  }),
 });
 
 const MyParcels = () => {
@@ -38,11 +38,15 @@ const MyParcels = () => {
 
   const handleCancelParcel = async (id: string) => {
     await setTrackingId(id);
-    console.log(id);
+    const toastId = toast.loading("Loading...");
 
-    const res = await cancelParcelOTPSend({ trackingId: "ran_1758740736034_872" });
 
-    console.log(trackingId, res);
+    const res = await cancelParcelOTPSend({ trackingId: id }).unwrap();
+
+    if (res.success) {
+      toast.success("OTP send your email", { id: toastId });
+    }
+
     setOpenModal(true);
   };
 
@@ -50,14 +54,14 @@ const MyParcels = () => {
     const toastId = toast.loading("Verifying OTP");
     const payload = { trackingId: trackingId, otp: data.pin };
 
-    console.log(payload);
-
     try {
       const res = await cancelParcelOTPVerify(payload).unwrap();
-      console.log(res);
+      
       if (res.success) {
         toast.success("OTP Verified", { id: toastId });
       }
+      setOpenModal(false)
+
     } catch (err) {
       console.log(err);
     }

@@ -32,9 +32,9 @@ export function RegisterForm({ className, ...props }: React.HTMLAttributes<HTMLD
     const payload = { name: data.name, email: data.email, password: data.password };
     const toastLoading = toast.loading("loading...");
 
+    
     try {
       const res = await register(payload).unwrap();
-
       if (res.email) {
         toast.success("Register successfully", { id: toastLoading });
         navigate("/verification", {state: res.email});
@@ -113,7 +113,7 @@ export function RegisterForm({ className, ...props }: React.HTMLAttributes<HTMLD
             />
 
             <Button type="submit" className="w-full text-white">
-              Login
+              Register
             </Button>
           </form>
         </Form>

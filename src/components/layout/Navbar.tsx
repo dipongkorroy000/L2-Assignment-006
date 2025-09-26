@@ -24,7 +24,7 @@ const navigationLinks = [
   { href: "/super-admin", label: "Dashboard", role: role.superAdmin },
   { href: "/sender", label: "Dashboard", role: role.sender },
   { href: "/receiver", label: "Dashboard", role: role.receiver },
-  { href: "/", label: "Pricing", role: role.public },
+  // { href: "/", label: "Pricing", role: role.public },
   {
     label: "About",
     submenu: true,
@@ -58,7 +58,7 @@ export default function Navbar() {
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
                     <div key={index}>
-                      {link.role === profile?.data.role && !link.submenu && (
+                      {link?.role === profile?.data?.role && !link.submenu && (
                         <NavigationMenuItem className="w-full">
                           <NavigationMenuLink href={link.href} className="py-1.5">
                             {link.label}
