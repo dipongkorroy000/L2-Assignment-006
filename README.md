@@ -53,5 +53,5 @@ Built for scalability and optimized for Bengali users, the platform supports bot
 ```bash
 git clone https://github.com/your-backend-repo
 cd backend
-npm install
-npm run dev
+pnpm install
+pnpm run dev
