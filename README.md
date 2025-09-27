@@ -8,7 +8,7 @@ A full-stack parcel delivery system built with React, Express, and MongoDB—des
 ## 🌐 Live URLs
 
 - **Frontend**: [https://l2-assignment-006.vercel.app](https://l2-assignment-006.vercel.app)  
-
+- **Backend**: [https://l2-assignment-006-backend.vercel.app](https://l2-assignment-006-backend.vercel.app)
 
 ---
 
