@@ -1,6 +1,5 @@
 import App from "@/App";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import HeroSection from "@/components/modules/home/HeroSection";
 import { role } from "@/constants/role";
 import Login from "@/pages/Login";
 import Profile from "@/pages/profile/Profile";
@@ -18,13 +17,14 @@ import AboutUs from "@/pages/AboutUs";
 import ContactUs from "@/pages/ContactUs";
 import GetStarted from "@/pages/GetStarted";
 import Success from "@/pages/Success";
+import Home from "@/pages/Home";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: App,
     children: [
-      { index: true, Component: HeroSection },
+      { index: true, Component: Home },
       { path: "profile", Component: withAuth(Profile) },
       { path: "/contact-us", Component: ContactUs },
       { path: "/about-us", Component: AboutUs },

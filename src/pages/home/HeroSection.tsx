@@ -21,8 +21,8 @@ interface Hero7Props {
 }
 
 const HeroSection = ({
-  heading = "A Collection of Components Built With Shadcn & Tailwind",
-  description = "Finely crafted components built with React, Tailwind and Shadcn UI. Developers can copy and paste these blocks directly into their project.",
+  heading = "Fast. Reliable. Delivered.",
+  description = "Your parcels, documents, and essentials—picked up and delivered with care across Bangladesh.",
   button = {
     text: "Discover all components",
     url: "https://www.shadcnblocks.com",

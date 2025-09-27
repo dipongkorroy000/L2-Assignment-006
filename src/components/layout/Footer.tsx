@@ -17,17 +17,13 @@ const defaultSections = [
     links: [
       { name: "Overview", href: "#" },
       { name: "Pricing", href: "#" },
-      { name: "Marketplace", href: "#" },
-      { name: "Features", href: "#" },
     ],
   },
   {
     title: "Company",
     links: [
-      { name: "About", href: "#" },
+      { name: "About", href: "/about-us" },
       { name: "Team", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Careers", href: "#" },
     ],
   },
   {
@@ -35,8 +31,6 @@ const defaultSections = [
     links: [
       { name: "Help", href: "#" },
       { name: "Sales", href: "#" },
-      { name: "Advertise", href: "#" },
-      { name: "Privacy", href: "#" },
     ],
   },
 ];
