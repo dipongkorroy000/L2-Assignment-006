@@ -17,7 +17,6 @@ const [nextTimePayment] = useNextTimePaymentMutation();
   const parcels = data?.data;
   const email = profile?.email;
 
-
   const handelPicked = async (trackingId: string) => {
     const toastId = toast.loading("Loading...")
     const payload = { trackingId, email };
@@ -35,6 +34,7 @@ const [nextTimePayment] = useNextTimePaymentMutation();
   const handlePayment = async (trackingId : string) => {
     const res = await nextTimePayment(trackingId);
 
+    console.log(res);
     if (res.data.success) window.open(res.data?.data.paymentUrl);
   }
 
