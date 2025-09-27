@@ -16,14 +16,12 @@ const axiosBaseQuery =
   > =>
   async ({ url, method, data, params, headers }) => {
     try {
-      const result = await axiosInstance({ url: url, method, data, params, headers });
-
-      // console.log(result)
+      const result = await axiosInstance({ url, method, data, params, headers });
 
       return { data: result.data };
     } catch (axiosError) {
       const err = axiosError as AxiosError;
-      // console.log(err)
+      // console.log(err.response?.data)
       return { error: { status: err.response?.status, data: err.response?.data || err.message } };
     }
   };
