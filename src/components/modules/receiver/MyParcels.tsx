@@ -34,7 +34,6 @@ const [nextTimePayment] = useNextTimePaymentMutation();
   const handlePayment = async (trackingId : string) => {
     const res = await nextTimePayment(trackingId);
 
-    console.log(res);
     if (res.data.success) window.open(res.data?.data.paymentUrl);
   }
 
@@ -46,7 +45,7 @@ const [nextTimePayment] = useNextTimePaymentMutation();
 
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-10">
-              {parcels.map((parcel: GetParcel) => (
+              {parcels?.map((parcel: GetParcel) => (
                 <Card key={parcel._id}>
                   <CardHeader>
                     <CardTitle className="text-lg font-semibold">

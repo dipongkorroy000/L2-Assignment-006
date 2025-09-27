@@ -70,8 +70,7 @@ const ParcelRequest = () => {
         navigate("/sender/my-parcels");
       }
     } catch (err: any) {
-      console.error("Parcel submission failed:", err);
-      toast.error(err.message);
+      toast.error(err.data.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -124,11 +123,11 @@ const ParcelRequest = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Receiver Email <span className="text-muted-foreground text-sm">(optional)</span>
+                  Receiver Email
                 </FormLabel>
 
                 <FormControl>
-                  <Input placeholder="Receiver Email" {...field} />
+                  <Input placeholder="Receiver Email" {...field} required={true}/>
                 </FormControl>
                 <FormMessage />
               </FormItem>

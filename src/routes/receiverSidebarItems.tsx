@@ -10,8 +10,9 @@ const receiverSidebarItems: ISidebarItem[] = [
   },
   {
     title: "Parcels",
-    items: [{ title: "Incoming Parcels", url: "/receiver/parcels", component: MyParcels }, 
-            { title: "Payments", url: "/receiver/payments", component: Payments }
+    items: [
+      { title: "Incoming Parcels", url: "/receiver/parcels", component: MyParcels }, 
+      { title: "Payments", url: "/receiver/payments", component: Payments }
     ],
   },
 ];
