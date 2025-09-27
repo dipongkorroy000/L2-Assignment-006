@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useGetParcelsQuery, useGetParcelsStatsQuery, useUpdateParcelStatusLogMutation } from "@/redux/features/parcel/parcel.api";
 import { useState, useMemo } from "react";
@@ -249,7 +250,7 @@ const ParcelStats = () => {
                         <SelectValue placeholder="Select division" />
                       </SelectTrigger>
                       <SelectContent>
-                        {rawParcels?.data.map((status) => (
+                        {rawParcels?.data.map((status: {trackingId: string}) => (
                           <SelectItem key={status.trackingId} value={status.trackingId}>
                             {status.trackingId}
                           </SelectItem>

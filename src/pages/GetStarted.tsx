@@ -1,5 +1,6 @@
 import { useAnyOneFindParcelQuery } from "@/redux/features/parcel/parcel.api";
 import { useState } from "react";
+import Faq from "./home/Faq";
 
 const GetStarted = () => {
   const [trackingId, setTrackingId] = useState<string>("");
@@ -20,7 +21,7 @@ const GetStarted = () => {
   };
 
 
-  return (
+  return (<>
     <div className="p-6 max-w-md mx-auto">
       <h2 className="text-xl font-semibold mb-4">🔍 Find Your Parcel</h2>
 
@@ -61,7 +62,9 @@ const GetStarted = () => {
           
         </div>
       )}
-    </div>
+
+      
+    </div><Faq></Faq></>
   );
 };
 

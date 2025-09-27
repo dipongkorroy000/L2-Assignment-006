@@ -1,3 +1,4 @@
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useGetParcelsQuery, useGetParcelsStatsQuery, useUpdateParcelStatusLogMutation } from "@/redux/features/parcel/parcel.api";
 import { useState, useMemo } from "react";
@@ -52,7 +53,7 @@ const ParcelStats = () => {
 
   const data = useMemo(() => {
     return (
-      rawParcels?.data.map((p) => ({
+      rawParcels?.data.map((p : {trackingId: string, status: string, payment: string, statusLog: [{status: string}]}) => ({
         trackingId: p.trackingId,
         status: p.status,
         payment: p.payment,
@@ -94,6 +95,7 @@ const ParcelStats = () => {
     try {
       const res = await updateParcelStatusLog(updatedDoc).unwrap();
       if (res.success) return toast.success(res.message, { id: toastId });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.data.message, { id: toastId });
     }
@@ -249,7 +251,7 @@ const ParcelStats = () => {
                         <SelectValue placeholder="Select division" />
                       </SelectTrigger>
                       <SelectContent>
-                        {rawParcels?.data.map((status) => (
+                        {rawParcels?.data.map((status : {trackingId: string}) => (
                           <SelectItem key={status.trackingId} value={status.trackingId}>
                             {status.trackingId}
                           </SelectItem>

@@ -12,6 +12,29 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { parcelStatus, Payment_Status } from "@/constants/ParcelStatus";
 
+type StatusLog = {
+  status: string;
+  updatedBy: string;
+  timestamp: string;
+};
+
+type Parcel = {
+  trackingId: string;
+  title: string;
+  type: "Document" | "Package";
+  weight: number;
+  division: string;
+  city: string;
+  area: string;
+  status: string;
+  payment: "COMPLETE" | "CANCEL";
+  statusLog: StatusLog[];
+  receiverNumber: string;
+  createdAt: Date;
+  senderId: {email: string}
+};
+
+
 const Parcels = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -53,7 +76,7 @@ const Parcels = () => {
 
   const data = useMemo(() => {
     return (
-      rawParcels?.data.map((p) => ({
+      rawParcels?.data.map((p: Parcel) => ({
         trackingId: p.trackingId,
         title: p.title,
         type: p.type,
